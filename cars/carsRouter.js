@@ -34,3 +34,6 @@ function validateCar(req, res, next) {
         next();
     }
 }
+
+
+module.exports = router;
