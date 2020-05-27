@@ -17,10 +17,10 @@ router.get('/', async (req, res) => {
 
 router.post('/', validateCar, async (req, res) => {
     try {
-        const carData = await db.insert(req.carData).into('cars');
+        const carData = await db.insert(req.cars).into('cars');
         res.status(200).json(carData);
     } catch (err) {
-        res.status(400).json({ message: 'The car information could not be added.', error: err});
+        res.status(500).json({ message: 'The car information could not be added.', error: err});
     }
 });
 
@@ -29,7 +29,7 @@ router.post('/', validateCar, async (req, res) => {
 function validateCar(req, res, next) {
     const cars = req.body;
 
-    if (cars.VIN === '' || cars.make === '' || cars.model === '' || cars.mileage === 0) {
+    if (typeof cars.VIN === 'undefined' || typeof cars.make === 'undefined' || typeof cars.model === 'undefined' || typeof cars.mileage === 'undefined') {
         res.status(400).json({ message: 'Please ensure all required fields are filled: VIN, make, model, mileage.'})
     } else {
         req.cars = { ...req.cars, ...cars };
