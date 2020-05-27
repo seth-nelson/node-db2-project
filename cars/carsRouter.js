@@ -7,11 +7,13 @@ const router = express.Router();
 router.get('/', async (req, res) => {
     try {
         const cars = await db.select('*').from('cars');
+        console.log('got cars data from db', cars);
         res.status(200).json(cars);
     } catch (err) {
         res.status(500).json({ message: 'The cars could not be retrieved.', error: err});
     }
 });
+
 
 router.post('/', validateCar, async (req, res) => {
     try {
